@@ -20,6 +20,7 @@ lint: ## Check if the code is valid
 	php -l src/jeph/frame.php
 
 	php -l tests/Pest.php
+	php -l tests/get-tests.php
 
 	php -l demo/index.php
 	php -l demo/routes/name.php
