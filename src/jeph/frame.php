@@ -109,6 +109,13 @@ class Frame {
         $match = $dispatcher->dispatch($this->request_method, $this->request_uri);
         switch ($match[0]) {
             case Dispatcher::NOT_FOUND:
+                // Catch URLs that include a trailing slash and redirect without it
+                if ( substr($this->request_uri, -1) === '/' ) {
+                    http_response_code(302);
+                    header( 'Location: ' . substr($this->request_uri, 0, -1) );
+                    exit;
+                }
+
                 http_response_code(404);
                 echo "404 Not Found";
                 break;
