@@ -23,3 +23,19 @@ lint: ## Check if the code is valid
 	php -l demo/index.php
 	php -l demo/routes/name.php
 	@echo
+
+# ### #
+
+.PHONY: test-server-start
+test-server-start: ## PHP server for tests
+	@echo
+	@echo "--> Test Server: start"
+	@echo
+	php -S 127.0.0.1:9191 -t demo/ &
+
+.PHONY: test-server-stop
+test-server-stop: ## PHP server for tests
+	@echo
+	@echo "--> Test Server: stop"
+	@echo
+	kill $(shell pgrep -f 'php -S 127.0.0.1:9191 -t demo/')
