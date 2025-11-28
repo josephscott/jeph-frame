@@ -1,0 +1,13 @@
+{
+	"name": "jeph/frame",
+	"license": "MIT",
+	"require": {
+		"php": ">=8.2",
+		"nikic/fast-route": "1.3.0"
+	},
+	"config": {
+		"classmap-authoritative": true,
+		"optimize-autoloader": true,
+		"allow-plugins": false
+	}
+}
