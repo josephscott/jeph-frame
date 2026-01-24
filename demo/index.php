@@ -71,4 +71,16 @@ $frame->head( '/head/{id:\d+}', function( $vars ) {
 	header( 'X-Head-Id: ' . $vars['id'] );
 } );
 
+$frame->any( '/any', function() {
+	echo "ANY OK\n";
+} );
+
+$frame->get( '/query', function() {
+	echo "QUERY OK\n";
+} );
+
+$frame->get( '/encoded/{name}', function( $vars ) {
+	echo "ENCODED: {$vars['name']}\n";
+} );
+
 $frame->run();
