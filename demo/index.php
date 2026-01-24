@@ -31,4 +31,12 @@ $frame->post( '/post/{id:\d+}', function( $vars ) {
 	echo "POST ID: {$vars['id']}\n";
 } );
 
+$frame->put( '/put', function() {
+	echo "PUT OK\n";
+} );
+
+$frame->put( '/put/{id:\d+}', function( $vars ) {
+	echo "PUT ID: {$vars['id']}\n";
+} );
+
 $frame->run();
