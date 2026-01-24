@@ -39,4 +39,12 @@ $frame->put( '/put/{id:\d+}', function( $vars ) {
 	echo "PUT ID: {$vars['id']}\n";
 } );
 
+$frame->delete( '/delete', function() {
+	echo "DELETE OK\n";
+} );
+
+$frame->delete( '/delete/{id:\d+}', function( $vars ) {
+	echo "DELETE ID: {$vars['id']}\n";
+} );
+
 $frame->run();
