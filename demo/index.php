@@ -47,4 +47,12 @@ $frame->delete( '/delete/{id:\d+}', function( $vars ) {
 	echo "DELETE ID: {$vars['id']}\n";
 } );
 
+$frame->patch( '/patch', function() {
+	echo "PATCH OK\n";
+} );
+
+$frame->patch( '/patch/{id:\d+}', function( $vars ) {
+	echo "PATCH ID: {$vars['id']}\n";
+} );
+
 $frame->run();
