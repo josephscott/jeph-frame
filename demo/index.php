@@ -55,4 +55,12 @@ $frame->patch( '/patch/{id:\d+}', function( $vars ) {
 	echo "PATCH ID: {$vars['id']}\n";
 } );
 
+$frame->options( '/options', function() {
+	echo "OPTIONS OK\n";
+} );
+
+$frame->options( '/options/{id:\d+}', function( $vars ) {
+	echo "OPTIONS ID: {$vars['id']}\n";
+} );
+
 $frame->run();
