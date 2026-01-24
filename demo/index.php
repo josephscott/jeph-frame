@@ -23,4 +23,12 @@ class Route_Bye {
 
 $frame->get( '/bye/{name:\w+}', [ 'Route_Bye' ] );
 
+$frame->post( '/post', function() {
+	echo "POST OK\n";
+} );
+
+$frame->post( '/post/{id:\d+}', function( $vars ) {
+	echo "POST ID: {$vars['id']}\n";
+} );
+
 $frame->run();
