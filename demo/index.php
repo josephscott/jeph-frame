@@ -63,4 +63,12 @@ $frame->options( '/options/{id:\d+}', function( $vars ) {
 	echo "OPTIONS ID: {$vars['id']}\n";
 } );
 
+$frame->head( '/head', function() {
+	header( 'X-Head-Test: ok' );
+} );
+
+$frame->head( '/head/{id:\d+}', function( $vars ) {
+	header( 'X-Head-Id: ' . $vars['id'] );
+} );
+
 $frame->run();
