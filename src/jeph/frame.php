@@ -17,7 +17,7 @@ use function strtoupper;
 use function substr;
 
 class Frame {
-	private array $methods = [ 'GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS', 'HEAD' ];
+	private const METHODS = [ 'GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS', 'HEAD' ];
 
 	private array $routes = [];
 
@@ -121,7 +121,7 @@ class Frame {
 		string $path,
 		string|callable|array $callback
 	): void {
-		foreach ( $this->methods as $method ) {
+		foreach ( self::METHODS as $method ) {
 			$this->routes[] = [
 				'path' => $path,
 				'callback' => $callback,
