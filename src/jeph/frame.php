@@ -12,7 +12,7 @@ use function is_array;
 use function is_callable;
 use function is_string;
 use function rawurldecode;
-use function strpos;
+use function strtok;
 use function strtoupper;
 use function substr;
 
@@ -29,11 +29,7 @@ class Frame {
 
 	public function __construct() {
 		$this->request_method = strtoupper( $_SERVER['REQUEST_METHOD'] );
-		$this->request_uri = rawurldecode( $_SERVER['REQUEST_URI'] );
-
-		if ( false !== $pos = strpos( $this->request_uri, '?' ) ) {
-			$this->request_uri = substr( $this->request_uri, 0, $pos );
-		}
+		$this->request_uri = strtok( rawurldecode( $_SERVER['REQUEST_URI'] ), '?' );
 	}
 
 	public function set_cache_file( string $path ): void {
