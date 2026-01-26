@@ -134,14 +134,10 @@ class Frame {
 		string|callable|array $handler,
 		array $vars = []
 	): void {
-		$_ENV['__FRAME_HANDLER'] = $handler;
-		$_ENV['__FRAME'] = $vars;
-
 		if ( is_string( $handler ) ) {
-			$call_file = function() {
-				require $_ENV['__FRAME_HANDLER'];
-			};
-			$call_file();
+			( function( string $__file, array $_frame ) {
+				require $__file;
+			} )( $handler, $vars );
 			return;
 		}
 
@@ -156,7 +152,6 @@ class Frame {
 		if ( is_callable( $handler ) ) {
 			$handler( $vars );
 		}
-
 	}
 
 	public function run(): void {

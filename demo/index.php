@@ -10,8 +10,8 @@ $frame->get( '/', function() {
 
 $frame->get( '/hello/{name:\w+}', __DIR__ . '/routes/name.php' );
 
-$frame->get( '/opt[/{name:\w+}]', function() {
-	$name = $_ENV['__FRAME']['name'] ?? 'none';
+$frame->get( '/opt[/{name:\w+}]', function( $vars ) {
+	$name = $vars['name'] ?? 'none';
 	echo "OPT: $name\n";
 } );
 

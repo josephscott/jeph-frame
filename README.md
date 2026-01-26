@@ -93,11 +93,11 @@ $frame->get( '/hello', function( $vars ) {
 $frame->get( '/dashboard', __DIR__ . '/routes/dashboard.php' );
 ```
 
-In the included file, access parameters via `$_ENV['__FRAME']`:
+In the included file, route parameters are available via the `$_frame` array:
 
 ```php
 <?php
-$id = $_ENV['__FRAME']['id'] ?? null;
+$id = $_frame['id'] ?? null;
 echo "ID: $id";
 ```
 
