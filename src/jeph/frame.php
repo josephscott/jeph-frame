@@ -12,6 +12,7 @@ use function is_array;
 use function is_callable;
 use function is_string;
 use function rawurldecode;
+use function str_ends_with;
 use function strtok;
 use function strtoupper;
 use function substr;
@@ -178,7 +179,7 @@ class Frame {
 			case Dispatcher::NOT_FOUND:
 				// Catch URLs that include a trailing slash and
 				// redirect without it
-				if ( substr( $this->request_uri, -1 ) === '/' ) {
+				if ( str_ends_with( $this->request_uri, '/' ) ) {
 					http_response_code( 302 );
 					header(
 						'Location: ' . substr( $this->request_uri, 0, -1 )
