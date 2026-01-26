@@ -5,7 +5,6 @@ namespace JEPH;
 
 use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
-use function call_user_func;
 use function FastRoute\cachedDispatcher;
 use function FastRoute\simpleDispatcher;
 use function http_response_code;
@@ -142,7 +141,7 @@ class Frame {
 			$call_file = function() {
 				require $_ENV['__FRAME_HANDLER'];
 			};
-			call_user_func( $call_file );
+			$call_file();
 			return;
 		}
 
@@ -155,7 +154,7 @@ class Frame {
 		}
 
 		if ( is_callable( $handler ) ) {
-			call_user_func( $handler, $vars );
+			$handler( $vars );
 		}
 
 	}
