@@ -44,5 +44,8 @@ jobs:
       - name: Install dependencies
         run: composer install --prefer-dist --no-progress
 
+      - name: Analyze
+        run: make analyze
+
       - name: Run tests
         run: make tests
