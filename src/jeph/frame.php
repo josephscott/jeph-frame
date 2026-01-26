@@ -6,6 +6,7 @@ namespace JEPH;
 use FastRoute\Dispatcher;
 use FastRoute\RouteCollector;
 use function call_user_func;
+use function FastRoute\cachedDispatcher;
 use function FastRoute\simpleDispatcher;
 use function http_response_code;
 use function is_array;
@@ -21,6 +22,8 @@ class Frame {
 
 	private array $routes = [];
 
+	private ?string $cache_file = null;
+
 	private string $request_method;
 
 	private string $request_uri;
@@ -32,6 +35,10 @@ class Frame {
 		if ( false !== $pos = strpos( $this->request_uri, '?' ) ) {
 			$this->request_uri = substr( $this->request_uri, 0, $pos );
 		}
+	}
+
+	public function set_cache_file( string $path ): void {
+		$this->cache_file = $path;
 	}
 
 	public function get(
@@ -154,7 +161,7 @@ class Frame {
 	}
 
 	public function run(): void {
-		$dispatcher = simpleDispatcher( function( RouteCollector $collector ) {
+		$route_definition = function( RouteCollector $collector ) {
 			foreach ( $this->routes as $route ) {
 				$collector->addRoute(
 					$route['method'],
@@ -162,7 +169,16 @@ class Frame {
 					$route['callback']
 				);
 			}
-		} );
+		};
+
+		if ( $this->cache_file !== null ) {
+			$dispatcher = cachedDispatcher(
+				$route_definition,
+				[ 'cacheFile' => $this->cache_file ]
+			);
+		} else {
+			$dispatcher = simpleDispatcher( $route_definition );
+		}
 
 		$match = $dispatcher->dispatch(
 			$this->request_method,

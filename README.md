@@ -119,6 +119,41 @@ $frame->post( '/api/resource', [ 'ApiResource' ] );
 
 The class method matching the HTTP method is called automatically.
 
+## Route Caching
+
+By default, routes are compiled on every request, which is ideal for development since changes take effect immediately.
+
+For production, enable route caching to avoid recompiling routes on each request:
+
+```php
+$frame = new JEPH\Frame();
+$frame->set_cache_file( '/tmp/routes.cache' );
+
+$frame->get( '/', function() {
+    echo 'Hello World!';
+} );
+
+$frame->run();
+```
+
+A common pattern is to enable caching based on environment:
+
+```php
+$frame = new JEPH\Frame();
+
+if ( getenv( 'APP_ENV' ) === 'production' ) {
+    $frame->set_cache_file( '/tmp/routes.cache' );
+}
+
+$frame->get( '/', function() {
+    echo 'Hello World!';
+} );
+
+$frame->run();
+```
+
+When routes change in production, delete the cache file to regenerate it on the next request.
+
 ## Behavior
 
 - **Trailing slashes**: Redirects `/path/` to `/path` with a 302 response
