@@ -146,9 +146,7 @@ class Frame {
 			return;
 		}
 
-		if ( is_callable( $handler ) ) {
-			$handler( $vars );
-		}
+		$handler( $vars );
 	}
 
 	public function run(): void {
