@@ -24,12 +24,9 @@ style: ## Fix any style issues
 lint: ## Check if the code is valid
 	@echo
 	@echo "--> Lint"
-	php -l src/jeph/frame.php
-
-	php -l tests/*.php
-
-	php -l demo/index.php
-	php -l demo/routes/name.php
+	find src -name "*.php" -exec php -l {} \;
+	find tests -name "*.php" -exec php -l {} \;
+	find demo -name "*.php" -exec php -l {} \;
 	@echo
 
 .PHONY: analyze
