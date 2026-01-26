@@ -32,7 +32,6 @@ class Frame {
 		if ( false !== $pos = strpos( $this->request_uri, '?' ) ) {
 			$this->request_uri = substr( $this->request_uri, 0, $pos );
 		}
-		$this->request_uri = rawurldecode( $this->request_uri );
 	}
 
 	public function get(
