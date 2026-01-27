@@ -9,7 +9,6 @@ use function FastRoute\cachedDispatcher;
 use function FastRoute\simpleDispatcher;
 use function http_response_code;
 use function is_array;
-use function is_callable;
 use function is_string;
 use function rawurldecode;
 use function str_ends_with;
