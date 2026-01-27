@@ -4,6 +4,15 @@ require __DIR__ . '/../vendor/autoload.php';
 
 $frame = new JEPH\Frame();
 
+$frame->set_not_found_handler( function( $vars ) {
+	echo "404 Not Found: {$vars['uri']}\n";
+} );
+
+$frame->set_method_not_allowed_handler( function( $vars ) {
+	$allowed = implode( ', ', $vars['allowed'] );
+	echo "405 Method Not Allowed: {$vars['uri']} (allowed: $allowed)\n";
+} );
+
 $frame->get( '/', function() {
 	echo "Hello World!\n";
 } );

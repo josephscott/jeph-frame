@@ -154,10 +154,57 @@ $frame->run();
 
 When routes change in production, delete the cache file to regenerate it on the next request.
 
+## Custom Error Handlers
+
+By default, unmatched routes return a plain text "404 Not Found" or "405 Method Not Allowed" response. You can customize these with your own handlers.
+
+Error handlers support the same handler types as routes: closures, file includes, and classes.
+
+### 404 Not Found Handler
+
+```php
+$frame->set_not_found_handler( function( $vars ) {
+    echo "Page not found: {$vars['uri']}";
+} );
+```
+
+The handler receives:
+- `$vars['uri']` - The requested URI that was not found
+
+### 405 Method Not Allowed Handler
+
+```php
+$frame->set_method_not_allowed_handler( function( $vars ) {
+    $allowed = implode( ', ', $vars['allowed'] );
+    echo "Method not allowed. Try: $allowed";
+} );
+```
+
+The handler receives:
+- `$vars['uri']` - The requested URI
+- `$vars['allowed']` - Array of HTTP methods that are allowed for this path
+
+### File Include Handlers
+
+```php
+$frame->set_not_found_handler( __DIR__ . '/errors/404.php' );
+$frame->set_method_not_allowed_handler( __DIR__ . '/errors/405.php' );
+```
+
+In the included file, use the `$_frame` array:
+
+```php
+<?php
+// errors/404.php
+echo "Page not found: {$_frame['uri']}";
+```
+
+Note: The HTTP response code (404 or 405) is set automatically before your handler is called.
+
 ## Behavior
 
 - **Trailing slashes**: Redirects `/path/` to `/path` with a 302 response
 - **Query strings**: Stripped during route matching, still accessible via `$_GET`
 - **URL encoding**: Parameters are automatically decoded
-- **404 Not Found**: Returned when no route matches
-- **405 Method Not Allowed**: Returned when the path matches but the method does not
+- **404 Not Found**: Returned when no route matches (customizable via `set_not_found_handler`)
+- **405 Method Not Allowed**: Returned when the path matches but the method does not (customizable via `set_method_not_allowed_handler`)

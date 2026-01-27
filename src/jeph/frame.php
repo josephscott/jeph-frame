@@ -23,6 +23,10 @@ class Frame {
 
 	private ?string $cache_file = null;
 
+	private mixed $not_found_handler = null;
+
+	private mixed $method_not_allowed_handler = null;
+
 	private string $request_method;
 
 	private string $request_uri;
@@ -34,6 +38,14 @@ class Frame {
 
 	public function set_cache_file( string $path ): void {
 		$this->cache_file = $path;
+	}
+
+	public function set_not_found_handler( string|callable|array $handler ): void {
+		$this->not_found_handler = $handler;
+	}
+
+	public function set_method_not_allowed_handler( string|callable|array $handler ): void {
+		$this->method_not_allowed_handler = $handler;
 	}
 
 	public function get(
@@ -185,11 +197,28 @@ class Frame {
 				}
 
 				http_response_code( 404 );
-				echo '404 Not Found';
+				if ( $this->not_found_handler !== null ) {
+					$this->call_handler(
+						$this->not_found_handler,
+						[ 'uri' => $this->request_uri ]
+					);
+				} else {
+					echo '404 Not Found';
+				}
 				break;
 			case Dispatcher::METHOD_NOT_ALLOWED:
 				http_response_code( 405 );
-				echo '405 Method Not Allowed';
+				if ( $this->method_not_allowed_handler !== null ) {
+					$this->call_handler(
+						$this->method_not_allowed_handler,
+						[
+							'uri' => $this->request_uri,
+							'allowed' => $match[1],
+						]
+					);
+				} else {
+					echo '405 Method Not Allowed';
+				}
 				break;
 			case Dispatcher::FOUND:
 				$this->call_handler( $match[1], $match[2] );
